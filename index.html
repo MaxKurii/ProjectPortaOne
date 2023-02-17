@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Find Unique Char</title>
+</head>
+
+<body>
+  <!-- HTML-елементи, з якими ми будемо працювати -->
+  <div>
+    <textarea id="text-input"></textarea>
+    <button id="find-button">Find</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Отримуємо посилання на HTML-елементи за їх ID
+    const textInput = document.getElementById('text-input');
+    const findButton = document.getElementById('find-button');
+    const result = document.getElementById('result');
+
+    // Функція для пошуку унікального символу
+    function findUniqueChar(text) {
+      let words = text.split(' '); // Розбиваємо текст на слова
+      let uniqueChars = []; // Створюємо масив для зберігання унікальних символів
+
+      // Проходимося по кожному слову
+      for (let word of words) {
+        let charCounts = {}; // Створюємо об'єкт для зберігання кількості кожного символу у слові
+        for (let char of word) {
+          charCounts[char] = (charCounts[char] || 0) + 1; // Збільшуємо кількість входжень символу в слово
+        }
+        // Проходимося по кожному символу у слові
+        for (let char of word) {
+          // Якщо символ зустрічається лише один раз у слові, додаємо його до масиву унікальних символів
+          if (charCounts[char] === 1) {
+            uniqueChars.push(char);
+            break; // Зупиняємо цикл, як тільки знайдено перший унікальний символ
+          }
+        }
+      }
+
+      // Проходимося по кожному унікальному символу
+      for (let char of uniqueChars) {
+        // Якщо символ зустрічається лише один раз, повертаємо його
+        if (uniqueChars.filter(c => c === char).length === 1) {
+          return char;
+        }
+      }
+
+      return 'Not found'; // Якщо унікальний символ не знайдено
+    }
+
+    // Підписуємося на подію click кнопки
+    findButton.addEventListener('click', () => {
+      const text = textInput.value; // Отримуємо текст з поля вводу
+      const uniqueChar = findUniqueChar(text); // Знаходимо унікальний символ
+      result.textContent = uniqueChar; // Результат пошуку унікального символу
+    });
+  </script>
+</body>
+
+</html>
